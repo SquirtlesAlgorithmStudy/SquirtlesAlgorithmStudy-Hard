@@ -16,11 +16,17 @@ def solution(gems):
         end += 1
 
         if len(gem_dict) == gem_set_len:
+            #print("19:",start+1, end)
             while start < end:
-                if gem_dict[gems[start]] > 1:
-                    gem_dict[gems[start]] -= 1
-                    start += 1
+                start += 1
+                if gem_dict[gems[start-1]] > 1:
+                    gem_dict[gems[start-1]] -= 1
                 else:
+                    del gem_dict[gems[start-1]]
                     break
-
+            if end-start<sect:
+                sect= end-start
+                answer = [start,end]
+            #print("30:",start, end)
+                
     return answer
