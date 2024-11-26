@@ -18,6 +18,8 @@ def solution(word, pages):
         body = page.split("<body>")[1].split("</body>")[0]
 
         # 3. 링크 추출
+        # exiosLink = re.findall('<a href="(.+)">', '<a href="https://rerfdb"> test="dfdqom">') -> 뒤에 >가 있으면 틀림
+        # exiosLink = re.findall('<a href="(https://[\S]*)"', page) -> 이렇게 해야함
         links = list(map(lambda x: x.split('">')[0], body.split('<a href="')[1:]))
         # links = body.split('<a href="')[1:]
 

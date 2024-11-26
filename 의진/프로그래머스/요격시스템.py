@@ -8,7 +8,7 @@ def solution(targets):
             continue
 
         if target[0] < pivot_e:
-            pivot_e = target[1]
+            pivot_e = min(target[1], pivot_e)
             continue
         else:
             pivot_e = target[1]
