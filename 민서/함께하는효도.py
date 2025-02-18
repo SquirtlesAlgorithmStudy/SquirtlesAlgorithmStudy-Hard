@@ -24,8 +24,12 @@ def dfs(xys, visited, depth, score):
         nxy = []
         for i in range(4):
             nx, ny = x + dx[i], y + dy[i]
-            if 0 <= nx < N and 0 <= ny < N and (nx, ny) not in nxy:
-                nxy.append((nx, ny))
+            if not (0 <= nx < N and 0 <= ny < N):
+                continue
+            for c in case:
+                if (nx, ny) in c:
+                    continue
+            nxy.append((nx, ny))
         case.append(nxy)
     for nxys in itertools.product(*case):
         dfs(nxys, visited[:], depth + 1, score)
