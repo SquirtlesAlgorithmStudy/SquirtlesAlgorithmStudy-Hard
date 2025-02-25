@@ -13,8 +13,8 @@ for perm in permutations(range(4)):
             fi = f[perm[i]]
             fj = f[perm[j]]
 
-            win_i = (5 * fi) / (5 * fi + 5 * fj)
-            win_j = (5 * fj) / (5 * fi + 5 * fj)
+            win_i = (4 * fi) / (5 * fi + 5 * fj)
+            win_j = (4 * fj) / (5 * fi + 5 * fj)
             d = (fi + fj) / (5 * fi + 5 * fj)
 
             match.append((win_i, win_j, d, i, j))

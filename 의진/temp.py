@@ -1,9 +1,3 @@
-a = [1]
+a = "*a*"
 
-
-def func():
-    a = [2, 3]
-
-
-func()
-print(a)
+print(a.split("*"))
