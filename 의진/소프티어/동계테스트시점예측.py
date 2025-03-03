@@ -83,9 +83,9 @@ def ice_scan(ice_dict):
                 break
 
 
-def ice_delete(ice_set, board):
+def ice_delete(ice_dict, board):
     del_list = []
-    for ice, value in ice_set.items():
+    for ice, value in ice_dict.items():
         if value == 0:
             board[ice[0]][ice[1]] = 0
             del_list.append(ice)
