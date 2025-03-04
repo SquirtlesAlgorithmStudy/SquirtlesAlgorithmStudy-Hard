@@ -15,10 +15,10 @@ def eatbug(n, bug):
         final_size += bug[i] #3. 왼쪽부터 차례대로 흡수 연산
         
     initial_size = bug[-1]
-    
+
     print(final_size)
     print(initial_size)
-    
+
 
 #4. 마지막 남은 미생물의 크기, 초기크기 반환
 eatbug(N, bug)
