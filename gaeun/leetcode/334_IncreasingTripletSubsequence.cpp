@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-// O(nlogn) greedy
+// O(nlogn) greedy -> LIS 풀이
 // class Solution {
 // public:
 //     int binary_search(vector<int>& seq, int key){
@@ -11,17 +11,11 @@ using namespace std;
 //         int high=seq.size()-1;
 //         int mid=0;
 
-//         while(low < high){ // 정확한 값 찾을땐 while(low <= high)
-//             mid = low + (high-low)/2;
-//             if(mid == key){
-//                 return mid;
-//             }
-//             else if(mid < key){
-//                 low = mid + 1;
-//             }
-//             else if(mid > key){
-//                 high = mid - 1;
-//             }
+//         while(low <= high){
+//             mid = low + (high-low)/2; // (low+high)/2 해도 되는데, low+(high-low)/2가 overflow에 있어 더 안전함. 
+//             if(mid == key) return key;
+//             else if(mid < key) low = mid + 1;
+//             else high = mid - 1;
 //         }
 //         return low;
 //     }
