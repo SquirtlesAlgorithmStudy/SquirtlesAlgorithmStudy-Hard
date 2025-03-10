@@ -1,9 +1,9 @@
-import bisect
+import time
 
-lst = [10, 20, 25, 30]
+st = time.time()
+for i in range(10**7):
+    a = st**2
 
-left = bisect.bisect_left(lst, 25)
-right = bisect.bisect_right(lst, 25)
+et = time.time()
 
-print("bisect_left(25):", left)
-print("bisect_right(25):", right)
+print(et - st)
