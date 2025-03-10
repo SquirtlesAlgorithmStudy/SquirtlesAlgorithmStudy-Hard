@@ -9,7 +9,7 @@ int N, M;
 vector<int> cpti;
 unordered_map<int, int> cptiFreq;
 
-// O(N M^2)인데 왜 TLE뜨는지 모르겠음
+// O(N M^2)인데 왜 TLE뜨는지 모르겠음.. 43/47 정답, 4개 TLE
 int main(){
     cin >> N >> M;
     for(int i=0; i<N; i++){
