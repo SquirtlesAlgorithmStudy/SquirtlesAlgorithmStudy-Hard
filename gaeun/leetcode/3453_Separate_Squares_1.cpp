@@ -1,4 +1,8 @@
 #include <algorithm>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
     double calcAreaDifference(vector<vector<int>>& squares, double h){

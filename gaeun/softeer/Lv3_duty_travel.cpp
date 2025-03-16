@@ -10,21 +10,8 @@ vector<vector<pair<int,char>>> graph;
 bool visited[5001] = {0,};
 string str = "";
 int answer = 0;
+vector<vector<int>> dp;
 
-// 2개 TLE.. 
-int lcs(string str){
-    vector<vector<int>> dp;
-    dp.resize(str.size()+1, vector<int>(father.size()+1));
-
-    for(int i=0; i<=str.size(); i++){
-        for(int j=0; j<=father.size(); j++){
-            if(i==0 || j==0) dp[i][j] = 0;
-            else if(str[i-1] == father[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
-            else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
-        }   
-    }
-    return dp[str.size()][father.size()];
-}
 
 void dfs(int node){    
     int curr = node;
@@ -55,6 +42,14 @@ int main(int argc, char** argv)
     cin >> father;
 
     graph.resize(N+1);
+
+    dp.resize(M, vector<int>(father.size()));
+    for(int i=0; i<=M; i++){
+        for(int j=0; j<=father.size(); j++){
+            if(i==0 || j==0) dp[i][j] = 0;
+        }   
+    }
+
     for(int i=0; i<N-1; i++){
         int u, v;
         char c;
