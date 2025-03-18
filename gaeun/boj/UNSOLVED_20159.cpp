@@ -1,53 +1,63 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
-이해 불가능
+vector<int> card;
+vector<int> even_accum, odd_accum;
+int N;
+int result=0; // 카드의 값은 모두 양수
 
-// #include <iostream>
-// #include <vector>
-// #include <algorithm>
-// using namespace std;
+int main(){
+    cin >> N;
 
-// vector<int> card;
-// vector<int> prefix_odd, prefix_even;
-// int N;
-// int result;
+    int even_sum=0;
+    int odd_sum=0;
+    even_accum.push_back(0);
+    odd_accum.push_back(0);
+    
+    for(int i=0; i<N; i++){
+        int n;
+        cin >> n;
+        card.push_back(n);
 
-// int main(){
-//     cin >> N;
-//     prefix_even.resize(N,0);
-//     prefix_odd.resize(N,0);
-//     for(int i=0; i<N; i++){
-//         int c;
-//         cin >> c;
-//         card.push_back(c);
+        if(i%2 == 0){
+            even_sum += n;
+            even_accum.push_back(even_sum);
+        }
+    }
 
-//         if(i%2 == 0){
-//             if(i==0){
-//                 prefix_even[i] = c;
-//                 prefix_odd[i] = 0;
-//             } 
-//             else{
-//                 prefix_even[i] = prefix_even[i-1] + c;
-//                 prefix_odd[i] = prefix_odd[i-1];
-//             }             
-//         }
-//         else{
-//             prefix_even[i] = prefix_even[i-1];
-//             prefix_odd[i] = prefix_odd[i-1] + c;
-//         }
-//     }
+    for(int i=N-3; i>0; i=i-2){
+        odd_sum += card[i];
+        odd_accum.push_back(odd_sum);
+    }
 
-//     int result = 0;
-//     for(int i=0; i<N; i++){
-//         int tmp = 0;
-//         if(i-1 >= 0){
-//             tmp += prefix_even[i-1];
-//         }
-//         tmp += prefix_odd[N-1] - prefix_odd[i];
+    // for(int n:even_accum) cout << n << " ";
+    // cout << endl;
+    // for(int n:odd_accum) cout << n << " ";
+    // cout << endl;
 
-//         cout << "i= " << i << ": " << tmp << endl;
-//         result = max(tmp, result);
-//     }
+    int totalCardNum = N/2;
+    int evenNum, oddNum;
 
-//     cout << result << endl;
+    for(int i=0; i<N; i++) // i는 밑장 뺄 위치
+    {
+        if(i==0) evenNum = 0;
+        else evenNum = (i-1)/2 + 1;
+        
+        if(i%2 == 0) // 정훈이가 밑장 가져감
+        {
+            oddNum = totalCardNum-evenNum-1;
+            result = max(result, even_accum[evenNum]+card[N-1]+odd_accum[oddNum]);
+        }
+        else // 상대가 밑장
+        {
+            oddNum = totalCardNum-evenNum;
+            result = max(result, even_accum[evenNum]+odd_accum[oddNum]);
+        }
+        // cout << "i: " << i << endl << "evenNum: " << evenNum << " oddNum: " << oddNum << endl << "result: " << result << endl;
+    }
 
-// }
+    cout << result << endl;
+
+}
