@@ -32,11 +32,6 @@ int main(){
         odd_accum.push_back(odd_sum);
     }
 
-    // for(int n:even_accum) cout << n << " ";
-    // cout << endl;
-    // for(int n:odd_accum) cout << n << " ";
-    // cout << endl;
-
     int totalCardNum = N/2;
     int evenNum, oddNum;
 
@@ -55,7 +50,6 @@ int main(){
             oddNum = totalCardNum-evenNum;
             result = max(result, even_accum[evenNum]+odd_accum[oddNum]);
         }
-        // cout << "i: " << i << endl << "evenNum: " << evenNum << " oddNum: " << oddNum << endl << "result: " << result << endl;
     }
 
     cout << result << endl;
