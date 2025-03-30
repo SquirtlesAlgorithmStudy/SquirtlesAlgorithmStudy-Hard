@@ -1,9 +1,5 @@
 import time
 
-st = time.time()
-for i in range(10**7):
-    a = st**2
-
-et = time.time()
-
-print(et - st)
+print("Hello" * 1000000, end="")  # 버퍼에 저장되고 즉시 출력되지 않음
+time.sleep(2)  # 2초 대기
+print("World!")  # 이제 출력됨

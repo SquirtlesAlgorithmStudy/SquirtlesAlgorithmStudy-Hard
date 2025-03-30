@@ -1,4 +1,5 @@
 import sys
+
 input = sys.stdin.readline
 
 
@@ -7,14 +8,14 @@ def get_answer(start_idx, end_idx):
         return histogram[start_idx]
     elif end_idx - start_idx == 1:
         if histogram[end_idx] < histogram[start_idx]:
-            return max(2*histogram[end_idx], histogram[start_idx])
+            return max(2 * histogram[end_idx], histogram[start_idx])
         else:
-            return max(2*histogram[start_idx], histogram[end_idx])
+            return max(2 * histogram[start_idx], histogram[end_idx])
 
     else:
         divide_idx = (start_idx + end_idx) // 2
         left = get_answer(start_idx, divide_idx)
-        right = get_answer(divide_idx+1, end_idx)
+        right = get_answer(divide_idx + 1, end_idx)
 
         ptr_l = divide_idx - 1
         ptr_r = divide_idx + 1
@@ -58,6 +59,6 @@ while True:
     if test_case[0] == 0:
         break
     histogram = test_case[1:]
-    answer = get_answer(0, len(histogram)-1)
+    answer = get_answer(0, len(histogram) - 1)
 
     print(answer)
