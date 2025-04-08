@@ -24,7 +24,6 @@ int bfs(){
         curr = q.front();
         q.pop();
         
-
         // 종료조건: cnt가 10을 넘어서거나, 빨간공만 출구에 도달하거나
         if(curr.cnt > 10) break;
         if(grid[curr.rr][curr.rc] == 'O' && grid[curr.br][curr.bc] != 'O') return curr.cnt;
@@ -70,21 +69,23 @@ int bfs(){
 
             // 파란공과 빨간공이 한 열 or 한 행에서 같이 움직였다면, 조정 필요(더 멀리 있던 애가 한 칸 뒤로)
             if(nrr == nbr && nrc == nbc){
-                int distR = abs(nrr - curr.rr) + abs(nrc - curr.rc);
-                int distB = abs(nbr - curr.br) + abs(nbc - curr.bc);
+                if(grid[nrr][nrc] != 'O' && grid[nbr][nbc] != 'O'){ // 둘 중 하나가 구멍에 빠진거라면 둘 다 빠진거니까 예외처리 필요 x. 
+                    int distR = abs(nrr - curr.rr) + abs(nrc - curr.rc);
+                    int distB = abs(nbr - curr.br) + abs(nbc - curr.bc);
 
-                if(distR > distB){
-                    nrr -= dr[i];
-                    nrc -= dc[i];
-                } 
-                else{
-                    nbr -= dr[i];
-                    nbc -= dc[i];
+                    if(distR > distB){
+                        nrr -= dr[i];
+                        nrc -= dc[i];
+                    } 
+                    else{
+                        nbr -= dr[i];
+                        nbc -= dc[i];
+                    }
                 }
             }
 
-            // 이미 진행했던 경우의 수인지 확인
-            if(!visited[nrr][nrc][nbr][nbc]){
+            // 이미 진행했던 경우의 수이거나, B가 구멍에 빠지는 경우는 큐에 삽입 x
+            if(!visited[nrr][nrc][nbr][nbc] && grid[nbr][nbc] != 'O'){
                 visited[nrr][nrc][nbr][nbc] = 1;
 
                 INFO next;

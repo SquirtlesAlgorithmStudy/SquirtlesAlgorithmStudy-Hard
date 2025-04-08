@@ -1,228 +1,106 @@
 #include <iostream>
-#include <queue>
 #include <vector>
+#include <queue>
+#include <climits>
 
 using namespace std;
 
 int N, M;
 char grid[11][11];
-int visitedR[11][11]={0,};
-int visitedB[11][11]={0,};
-queue<pair<int,int>> qR;
-queue<pair<int,int>> qB;
-bool flagR, flagB;
-int level = 0;
-pair<int,int> currR, currB;
+struct INFO{
+    int redR, redC, blueR, blueC, cnt;
+};
+queue<INFO> q;
+bool visited[11][11][11][11] = {0, };
+int dr[4] = {-1, 1, 0, 0};
+int dc[4] = {0, 0, -1, 1};
+int answer = INT_MAX;
 
-// marble: marble to move, marble2: the other marble to detect collision, colour: the colour of marble to move
-void moveMarble(pair<int, int> marble, pair<int, int> marble2, char colour, int dr, int dc){
-    int nr = marble.first + dr;
-    int nc = marble.second + dc;
+bool bfs(){
+    while(!q.empty()){
+        INFO curr = q.front();
+        q.pop();
 
-    // 해당 방향으로 움직일 수 없음
-    if(grid[nr][nc] == '#' || (nr == marble2.first && nc == marble2.second)) return;
-    if(colour == 'R' && visitedR[nr][nc] == 1) return;
-    if(colour == 'B' && visitedB[nr][nc] == 1) return;
+        if(curr.cnt >= 10) return false;        
 
-    // 공 멈출때까지 움직여
-    while(grid[nr][nc] == '.' && (nr != marble2.first || nc != marble2.second)){
-        if(colour == 'R') visitedR[nr][nc] = 1;
-        else visitedB[nr][nc] = 1;
-        nr += dr;
-        nc += dc;
-    }
+        for(int i=0; i<4; i++){
+            int nrRed = curr.redR;
+            int ncRed = curr.redC;
+            int nrBlue = curr.blueR;
+            int ncBlue = curr.blueC;
 
-    // 움직인 후 벽 또는 다른 공을 마주했다면 
-    if(grid[nr][nc] == '#' || (nr == marble2.first && nc == marble2.second)){
-        nr -= dr;
-        nc -= dc;
-        if(colour == 'R'){
-            qR.push({nr, nc});
-            currR = {nr, nc};
-        } 
-        else{
-            qB.push({nr, nc});
-            currB = {nr, nc};
-        } 
-    }
-
-    // 움직인 후 출구를 마주했다면
-    else if(grid[nr][nc] == 'O'){
-        if(colour == 'R'){
-            flagR = 1;
-            currR = {-1, -1}; // 출구로 빠져나갔음
-        } 
-        else{
-            flagB = 1;
-            currB = {-1, -1}; // 출구로 빠져나갔음
-        } 
-    }
-}
-
-int bfs(){
-    while(!qR.empty()){
-        int qSize = qR.size();
-        level++;
-        
-        for(int i=0; i<qSize; i++){
-            if(qB.empty()){
-                // 상
-                currR = qR.front();
-                moveMarble(currR, currB, 'R', -1, 0);
-                if(flagR) return level;
-                else flagR = 0;
-
-                // 하
-                currR = qR.front();
-                moveMarble(currR, currB, 'R', 1, 0);
-                if(flagR) return level;
-                else flagR = 0;
-
-                // 좌
-                currR = qR.front();
-                moveMarble(currR, currB, 'R', 0, -1);
-                if(flagR) return level;
-                else flagR = 0;
-
-                // 우
-                currR = qR.front();
-                moveMarble(currR, currB, 'R', 0, 1);
-                if(flagR) return level;
-                else flagR = 0;
-
-                qR.pop();
+            // move red
+            while(1){
+                nrRed += dr[i]; ncRed += dc[i];
+                if(grid[nrRed][ncRed] == '#' || grid[nrRed][ncRed] == 'O') break;
             }
-            else{                
-                //상
-                currR = qR.front(); currB = qB.front();
-                if(currR.first < currB.first){
-                    moveMarble(currR, currB, 'R', -1, 0);
-                    moveMarble(currB, currR, 'B', -1, 0);
-                }
-                else{
-                    moveMarble(currB, currR, 'B', -1, 0);
-                    if(flagB == 0) moveMarble(currR, currB, 'R', -1, 0);
-                }
-                if(flagR == 1 && flagB == 0) return level;
-                else {flagR = 0; flagB = 0;}
-
-                //하
-                currR = qR.front(); currB = qB.front();
-                if(currR.first > currB.first){
-                    moveMarble(currR, currB, 'R', 1, 0);
-                    moveMarble(currB, currR, 'B', 1, 0);
-                }
-                else{
-                    moveMarble(currB, currR, 'B', 1, 0);
-                    if(flagB == 0) moveMarble(currR, currB, 'R', 1, 0);
-                }
-                if(flagR == 1 && flagB == 0) return level;
-                else {flagR = 0; flagB = 0;}
-
-                //좌
-                currR = qR.front(); currB = qB.front();
-                if(currR.second < currB.second){
-                    moveMarble(currR, currB, 'R', 0, -1);
-                    moveMarble(currB, currR, 'B', 0, -1);
-                }
-                else{
-                    moveMarble(currB, currR, 'B', 0, -1);
-                    if(flagB == 0) moveMarble(currR, currB, 'R', 0, -1);
-                }
-                if(flagR == 1 && flagB == 0) return level;
-                else {flagR = 0; flagB = 0;}
-
-                //우
-                currR = qR.front(); currB = qB.front();
-                if(currR.second < currB.second){
-                    moveMarble(currR, currB, 'R', 0, 1);
-                    moveMarble(currB, currR, 'B', 0, 1);
-                }
-                else{
-                    moveMarble(currB, currR, 'B', 0, 1);
-                    if(flagB == 0) moveMarble(currR, currB, 'R', 0, 1);
-                }
-                if(flagR == 1 && flagB == 0) return level;
-                else {flagR = 0; flagB = 0;}
-
-                qR.pop(); qB.pop();
+            if(grid[nrRed][ncRed] == '#'){
+                nrRed -= dr[i]; ncRed -= dc[i];
             }
-            // cout << "level " << level << " is done, current queue: " << endl;
-            // queue<pair<int,int>> tmp;
-            // tmp = qR;
-            // cout << "qR: ";
-            // while(!tmp.empty()){
-            //     cout << "(" << tmp.front().first <<"," << tmp.front().second << ")," << " ";
-            //     tmp.pop();
-            // }
-            // cout << endl;
-            // tmp = qB;
-            // cout << "qB: ";
-            // while(!tmp.empty()){
-            //     cout << "(" << tmp.front().first <<"," << tmp.front().second << ")," << " ";
-            //     tmp.pop();
-            // }
-            // cout << endl;
+
+            // move blue
+            while(1){
+                nrBlue += dr[i]; ncBlue += dc[i];
+                if(grid[nrBlue][ncBlue] == '#' || grid[nrBlue][ncBlue] == 'O') break;
+            }
+            if(grid[nrBlue][ncBlue] == '#'){
+                nrBlue -= dr[i]; ncBlue -= dc[i];
+            }
+
+            // adjust
+            if(nrRed == nrBlue && ncRed == ncBlue && (grid[nrRed][ncRed] != 'O')){
+                int distRed = abs(nrRed - curr.redR) + abs(ncRed - curr.redC);
+                int distBlue = abs(nrBlue - curr.blueR) + abs(ncBlue - curr.blueC);
+
+                if(distRed < distBlue){
+                    nrBlue -= dr[i]; ncBlue -= dc[i];
+                }
+                else{
+                    nrRed -= dr[i]; ncRed -= dc[i];
+                }
+            }
+
+            // check conditions
+            if(grid[nrBlue][ncBlue] == 'O') continue;
+            if(visited[nrRed][ncRed][nrBlue][ncBlue]) continue;
+
+            //cout << "nrRed, ncRed, nrBlue, ncBlue: " << nrRed << ", " << ncRed << ", " << nrBlue << ", " << ncBlue << "\n";
+            if(grid[nrRed][ncRed] == 'O'){
+                answer = curr.cnt + 1;
+                return true;
+            } 
+
+            INFO next;
+            next.redR = nrRed; next.redC = ncRed; next.blueR = nrBlue; next.blueC = ncBlue; next.cnt = curr.cnt+1;
+            q.push(next);
+            visited[nrRed][ncRed][nrBlue][ncBlue] = 1;
         }
-
-        if(level >= 10) return -1;
     }
-    return -1;
+    return false;
 }
 
 int main(){
     cin >> N >> M;
-    for(int i=0; i<N; i++){
-        for(int j=0; j<M; j++){
+
+    INFO init;
+    for(int i=1; i<=N; i++){
+        for(int j=1; j<=M; j++){
             cin >> grid[i][j];
             if(grid[i][j] == 'R'){
-                currR = {i,j};
-                qR.push({i,j});
-                grid[i][j] = '.';
-                visitedR[i][j] = 1;
+                init.redR = i;
+                init.redC = j;
             }
             if(grid[i][j] == 'B'){
-                currB = {i,j};
-                qB.push({i,j});
-                grid[i][j] = '.';
-                visitedB[i][j] = 1;
+                init.blueR = i;
+                init.blueC = j;
             }
         }
     }
-    
+    init.cnt = 0;
+    q.push(init);
+    visited[init.redR][init.redC][init.blueR][init.blueC] = 1;
 
-    cout << bfs() << endl;
+    if(!bfs()) cout << -1 << "\n";
+    else cout << answer << "\n";
+
 }
-
-// int main(){
-//     N = 7;
-//     M = 7;
-//     vector<string> input = {
-//         "#######",
-//         "#...RB#",
-//         "#.#####",
-//         "#.....#",
-//         "#####.#",
-//         "#O....#",
-//         "#######"
-//     };
-
-//     for(int i = 0; i < N; i++) {
-//         for(int j = 0; j < M; j++) {
-//             grid[i][j] = input[i][j];
-
-//             if(grid[i][j] == 'R') {
-//                 currR = {i, j};
-//                 qR.push({i, j});
-//                 grid[i][j] = '.';
-//             }
-//             if(grid[i][j] == 'B') {
-//                 currB = {i, j};
-//                 qB.push({i, j});
-//                 grid[i][j] = '.';
-//             }
-//         }
-//     }
-
-//     cout << bfs() << endl;
-// }
