@@ -1,5 +1,8 @@
 import time
 
-print("Hello" * 1000000, end="")  # 버퍼에 저장되고 즉시 출력되지 않음
-time.sleep(2)  # 2초 대기
-print("World!")  # 이제 출력됨
+# a = [1] * 100_000_000
+a = {i: 1 for i in range(100_000_000)}
+start_time = time.time()
+for i in range(100_000_000):
+    b = a[i]
+print(time.time() - start_time)

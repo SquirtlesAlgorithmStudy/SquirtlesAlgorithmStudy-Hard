@@ -17,7 +17,6 @@ def topo_sort(nodes):
     for i, ind in enumerate(indegrees[1:]):
         if ind == 0:
             queue.append(i + 1)
-    result = []
     while queue:
         now = queue.popleft()
         now_node = nodes[now]
