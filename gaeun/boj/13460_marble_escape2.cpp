@@ -11,7 +11,7 @@ struct INFO{
     int redR, redC, blueR, blueC, cnt;
 };
 queue<INFO> q;
-bool visited[11][11][11][11] = {0, };
+bool visited[11][11][11][11] = {0, }; 
 int dr[4] = {-1, 1, 0, 0};
 int dc[4] = {0, 0, -1, 1};
 int answer = INT_MAX;

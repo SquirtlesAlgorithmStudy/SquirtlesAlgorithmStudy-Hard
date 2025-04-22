@@ -60,10 +60,10 @@ int main(){
             if(max < cntDOWN){max = cntDOWN; dir = "DOWN";}
             if(max < cntLEFT){max = cntLEFT; dir = "LEFT";}
             if(max < cntRIGHT){max = cntRIGHT; dir = "RIGHT";}
-            // if(dir == "UP"){ sight = seeUP(); stoneCnt = cntUP; }
-            // else if(dir == "DOWN"){ sight = seeDOWN(); stoneCnt = cntDOWN; }
-            // else if(dir == "LEFT"){ sight = seeLEFT(); stoneCnt = cntLEFT; }
-            // else if(dir == "RIGHT"){ sight = seeRIGHT(); stoneCnt = cntRIGHT; }
+            if(dir == "UP"){ sight = seeUP(); stoneCnt = cntUP; }
+            else if(dir == "DOWN"){ sight = seeDOWN(); stoneCnt = cntDOWN; }
+            else if(dir == "LEFT"){ sight = seeLEFT(); stoneCnt = cntLEFT; }
+            else if(dir == "RIGHT"){ sight = seeRIGHT(); stoneCnt = cntRIGHT; }
 
             // soldier's move and attack
             moveSoldierAndAttack();      
