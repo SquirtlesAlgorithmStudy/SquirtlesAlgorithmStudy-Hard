@@ -51,26 +51,26 @@ vector<int> solution(vector<int> nodes, vector<vector<int>> edges) {
     int forwardTree = 0;
     for(int i=0; i<group.size(); i++){
         vector<int> treeToCheck = group[i];
+        int forwardNode = 0;
+        int reverseNode = 0;
         for(int j=0; j<treeToCheck.size(); j++){
-            int forwardNode = 0;
-            int reverseNode = 0;
-            for(int k=0; k<treeToCheck.size(); k++){
-                if(k==j){
-                    if(treeToCheck[k]%2 == graph[treeToCheck[k]].size()%2) forwardNode++;
-                    else reverseNode++;
-                }
-                else{
-                    if(treeToCheck[k]%2 == (graph[treeToCheck[k]].size()-1)%2) forwardNode++;
-                    else reverseNode++;
-                }
-            }
-        if(forwardNode == 0) reverseTree++;
-        if(reverseNode == 0) forwardTree++;
+            if(treeToCheck[j]%2 == graph[treeToCheck[j]].size()%2) forwardNode++;
+            else reverseNode++;                
         }
+        if(forwardNode == 1) forwardTree++;
+        if(reverseNode == 1) reverseTree++;
     }
 
     answer.push_back(forwardTree);
     answer.push_back(reverseTree);
-
     return answer;
+}
+
+int main(){
+    vector<int> nodes = {9, 15, 14, 7, 6, 1, 2, 4, 5, 11, 8, 10};
+    vector<vector<int>> edges = {{5, 14}, {1, 4}, {9, 11}, {2, 15}, {2, 5}, {9, 7}, {8, 1}, {6, 4}};
+
+    vector<int> answer = solution(nodes, edges);
+
+    cout << answer[0] << " " << answer[1] << "\n";
 }
