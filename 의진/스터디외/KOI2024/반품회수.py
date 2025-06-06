@@ -15,10 +15,10 @@ while not_finished:
         cost = max(max(T[nf] - current_time, 0), abs(current - X[nf]))
         if next_move[0] > cost:
             next_move = (cost, nf)
-    print(next_move[0])
     ans += next_move[0]
     current = X[next_move[1]]
     current_time += cost
     not_finished.remove(next_move[1])
+    
 
 print(ans)
