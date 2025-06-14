@@ -7,7 +7,7 @@ def solution():
     N = int(input())
     A = list(map(int, input().split()))
 
-    A.sort()
+    # A.sort()
 
     left = 0
     right = len(A) - 1
