@@ -22,3 +22,33 @@ for _ in range(N):
     n_baby %= 1000
     baby[baby_idx] = n_adult
 print((n_baby + n_adult + n_old) % 1000)
+
+###############################################
+from collections import deque
+input = open(0).readline
+a, b, d, N = map(int, input().split())
+b, c = b - a, d - b
+baby, adult, old = deque([1]), deque(), deque()
+n_baby, n_adult, n_old = 1, 0, 0
+for _ in range(N):
+    if len(old) == c:
+        n_old -= old.popleft()
+        n_old %= 1000
+    if len(adult) == b:
+        tmp = adult.popleft()
+        n_adult -= tmp
+        n_adult %= 1000
+        old.append(tmp)
+        n_old += tmp
+        n_adult %= 1000
+    if len(baby) == a:
+        tmp = baby.popleft()
+        n_baby -= tmp
+        n_baby %= 1000
+        adult.append(tmp)
+        n_adult += tmp
+        n_adult %= 1000
+    baby.append(n_adult)
+    n_baby += n_adult
+    n_baby %= 1000
+print((n_baby + n_adult + n_old) % 1000)
