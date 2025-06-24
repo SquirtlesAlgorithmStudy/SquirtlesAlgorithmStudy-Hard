@@ -60,3 +60,4 @@ public class BJ24041_GOLD4_성싶당밀키트 {
         System.out.println(end);
     }
 }
+https://www.acmicpc.net/problem/2560
