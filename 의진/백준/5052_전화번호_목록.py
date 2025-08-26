@@ -27,7 +27,6 @@ class Node:
 class Trie:
     def __init__(self):
         self.entries = {}
-        self.nodes = []
 
     def get_entry_node(self, key):
         return self.entries.get(key, None)
